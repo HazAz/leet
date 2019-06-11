@@ -1,0 +1,111 @@
+class Solution {
+  public static void main(String[] args){
+    
+    ListNode x = new ListNode(2);
+    x.next = new ListNode(4);
+    x.next.next = new ListNode(3);
+    
+    ListNode y = new ListNode(5);
+    y.next = new ListNode(6);
+    y.next.next = new ListNode(4);
+    //y.next.next.next = new ListNode(9);
+    //y.next.next.next.next = new ListNode(9);
+    //y.next.next.next.next.next = new ListNode(9);
+    //y.next.next.next.next.next.next = new ListNode(9);
+    //y.next.next.next.next.next.next.next = new ListNode(9);
+    //y.next.next.next.next.next.next.next.next = new ListNode(9);
+    //y.next.next.next.next.next.next.next.next.next = new ListNode(9);
+    
+    
+    ListNode z = addTwoNumbers(x, y);
+    
+    System.out.println(z.val);
+    while (z.next != null){
+      z = z.next;
+      System.out.println(z.val);
+    }
+  }
+  
+  
+  public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    int carry = 0;
+    boolean zero1 = false;
+    boolean zero2 = false;
+    ListNode sol = new ListNode((l1.val + l2.val)%10);
+    
+    if(l1.val + l2.val > 9){
+      carry = 1;
+    }
+    
+    //if both numbers are one digits
+    if(l1.next == null && l2.next == null){
+      if(carry >0) sol.next = new ListNode(1);
+      return sol;
+    }
+    
+    //dealing with l1
+    if(l1.next != null) l1 = l1.next;
+    else zero1 = true;
+    
+    //dealing with l2
+    if(l2.next != null) l2 = l2.next;
+    else zero2 = true;
+    
+    ListNode m = new ListNode(0);
+    sol.next = m;
+    
+    while(true){
+      //if both numbers arent zero
+      if(!zero1 && !zero2){
+        m.val = (l1.val + l2.val + carry)%10;
+        if(l1.val + l2.val + carry > 9){
+          carry = 1;
+        }
+        else{
+          carry = 0; 
+        }
+      }
+      
+      //if both numbers are zero
+      //else if(zero1 && zero2) return sol;
+      
+      //if l1 is zero
+      else if(zero1){
+        m.val = (l2.val + carry)%10;
+        if(l2.val + carry > 9){
+          carry = 1;
+        }
+        else{
+          carry = 0; 
+        }
+      }
+      //if l2 is zero
+      else if(zero2){
+        m.val = (l1.val + carry)%10;
+        if(l1.val + carry > 9){
+          carry = 1;
+        }
+        else{
+          carry = 0; 
+        }
+      }
+      
+      //if both numbers are one digits
+      if(l1.next == null && l2.next == null){
+        if(carry > 1){
+          m.next = new ListNode(1);
+        }
+        return sol;
+      }
+      
+      //dealing with l1
+      if(l1.next != null) l1 = l1.next;
+      else zero1 = true;
+      
+      //dealing with l2
+      if(l2.next != null) l2 = l2.next;
+      else zero2 = true;  
+    }
+    //return sol;
+  }
+}

@@ -1,0 +1,35 @@
+class Solution {
+    public TreeNode bstFromPreorder(int[] preorder) {
+        TreeNode root = new TreeNode(preorder[0]);
+        if (preorder.length == 1) return root;
+        int index = -1;
+        
+        //find index of first element greater than root
+        for(int i = 0; i < preorder.length; i++){
+            if(preorder[i] > preorder[0]){
+                index = i;
+                break;
+            }    
+        }
+        
+        //if(index == -1) return root;
+        
+        //everything before index is on left of root
+        if(index > 0){
+          int[] left = new int[index-1];
+            for(int i = 1; i < index; i++){
+                left[i-1] = preorder[i];
+            }
+            root.left = bstFromPreorder(left);
+        }
+        
+        //everything after index is on right of root
+        if(index < preorder.length-1){
+            int[] right = new int[preorder.length - index];
+            for(int i = index; i < right.length; i++){
+                right[i - index] = preorder[i];
+            }
+            root.right = bstFromPreorder(right);
+        }
+        return root;
+    }
